@@ -2,6 +2,8 @@ import SwiftUI
 
 struct AircraftDetailView: View {
     let aircraft: Aircraft
+    let route: FlightRoute?
+    let isLoadingRoute: Bool
     let onDismiss: () -> Void
 
     var body: some View {
@@ -31,7 +33,6 @@ struct AircraftDetailView: View {
                         .foregroundColor(.secondary)
                 }
                 Spacer()
-                // Status badge
                 VStack(spacing: 4) {
                     Text(aircraft.onGround ? "ON GROUND" : "IN FLIGHT")
                         .font(.system(size: 10, weight: .bold))
@@ -55,6 +56,11 @@ struct AircraftDetailView: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
+
+            // Route banner
+            RouteView(route: route, isLoading: isLoadingRoute)
+                .padding(.horizontal, 16)
+                .padding(.bottom, 10)
 
             Divider()
 
@@ -145,6 +151,109 @@ struct AircraftDetailView: View {
     }
 }
 
+// MARK: - Route banner
+private struct RouteView: View {
+    let route: FlightRoute?
+    let isLoading: Bool
+
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color(.secondarySystemBackground))
+
+            if isLoading {
+                HStack(spacing: 8) {
+                    ProgressView()
+                        .scaleEffect(0.8)
+                    Text("Fetching route…")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                .padding(.vertical, 10)
+            } else if let route {
+                routeContent(route)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 10)
+            } else {
+                Text("Route data unavailable")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .padding(.vertical, 10)
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder
+    private func routeContent(_ route: FlightRoute) -> some View {
+        let dep = route.departureAirport
+        let arr = route.arrivalAirport
+
+        HStack(spacing: 0) {
+            // Origin
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 4) {
+                    Image(systemName: "airplane.departure")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Text(dep.map { "\($0.flag) \($0.iata)" } ?? route.departure ?? "—")
+                        .font(.system(.headline, design: .monospaced, weight: .bold))
+                }
+                Text(dep?.city ?? dep?.name ?? "Unknown")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+                Text(dep?.name ?? "")
+                    .font(.system(size: 9))
+                    .foregroundColor(Color(.tertiaryLabel))
+                    .lineLimit(1)
+            }
+
+            Spacer()
+
+            // Flight path line
+            VStack(spacing: 2) {
+                Image(systemName: "airplane")
+                    .font(.caption)
+                    .foregroundColor(.orange)
+                    .scaleEffect(x: 1, y: 1)
+                Rectangle()
+                    .fill(Color(.separator))
+                    .frame(height: 1)
+                    .padding(.horizontal, 4)
+                if route.isArrivalEstimated && route.arrival != nil {
+                    Text("est.")
+                        .font(.system(size: 8))
+                        .foregroundColor(.secondary)
+                }
+            }
+            .frame(maxWidth: 80)
+
+            Spacer()
+
+            // Destination
+            VStack(alignment: .trailing, spacing: 2) {
+                HStack(spacing: 4) {
+                    Text(arr.map { "\($0.iata) \($0.flag)" } ?? route.arrival ?? "—")
+                        .font(.system(.headline, design: .monospaced, weight: .bold))
+                    Image(systemName: "airplane.arrival")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                Text(arr?.city ?? arr?.name ?? (route.arrival == nil ? "En Route" : "Unknown"))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+                Text(arr?.name ?? "")
+                    .font(.system(size: 9))
+                    .foregroundColor(Color(.tertiaryLabel))
+                    .lineLimit(1)
+            }
+        }
+    }
+}
+
+// MARK: - Stat cell
 private struct StatCell: View {
     let icon: String
     let label: String
@@ -177,19 +286,22 @@ private struct StatCell: View {
 }
 
 #Preview {
-    AircraftDetailView(aircraft: Aircraft(
-        id: "7c6b12",
-        callsign: "QFA1",
-        originCountry: "Australia",
-        longitude: 151.177,
-        latitude: -33.946,
-        baroAltitude: 10972,
-        geoAltitude: 11200,
-        onGround: false,
-        velocity: 245,
-        heading: 135,
-        verticalRate: -2.5,
-        squawk: "2541",
-        lastContact: Date()
-    ), onDismiss: {})
+    let route = FlightRoute(
+        icao24: "7c6b12",
+        departure: "YSSY",
+        arrival: "KLAX",
+        callsign: "QFA11",
+        isArrivalEstimated: false
+    )
+    AircraftDetailView(
+        aircraft: Aircraft(
+            id: "7c6b12", callsign: "QFA11", originCountry: "Australia",
+            longitude: 151.177, latitude: -33.946, baroAltitude: 10972,
+            geoAltitude: 11200, onGround: false, velocity: 245,
+            heading: 135, verticalRate: -2.5, squawk: "2541", lastContact: Date()
+        ),
+        route: route,
+        isLoadingRoute: false,
+        onDismiss: {}
+    )
 }

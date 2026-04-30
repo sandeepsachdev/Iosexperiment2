@@ -16,6 +16,8 @@
 		AA010000000000000007 /* FlightListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA020000000000000007 /* FlightListView.swift */; };
 		AA010000000000000008 /* StatsBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA020000000000000008 /* StatsBarView.swift */; };
 		AA010000000000000009 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA020000000000000009 /* Assets.xcassets */; };
+		AA010000000000000010 /* FlightRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA020000000000000010 /* FlightRoute.swift */; };
+		AA010000000000000011 /* AirportDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA020000000000000011 /* AirportDatabase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,8 @@
 		AA020000000000000008 /* StatsBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsBarView.swift; sourceTree = "<group>"; };
 		AA020000000000000009 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA02000000000000000A /* FlightTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlightTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA020000000000000010 /* FlightRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightRoute.swift; sourceTree = "<group>"; };
+		AA020000000000000011 /* AirportDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirportDatabase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 			isa = PBXGroup;
 			children = (
 				AA020000000000000003 /* Aircraft.swift */,
+				AA020000000000000010 /* FlightRoute.swift */,
+				AA020000000000000011 /* AirportDatabase.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -169,6 +175,8 @@
 				AA010000000000000006 /* AircraftDetailView.swift in Sources */,
 				AA010000000000000007 /* FlightListView.swift in Sources */,
 				AA010000000000000008 /* StatsBarView.swift in Sources */,
+				AA010000000000000010 /* FlightRoute.swift in Sources */,
+				AA010000000000000011 /* AirportDatabase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

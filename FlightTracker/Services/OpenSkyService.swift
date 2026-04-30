@@ -8,6 +8,10 @@ final class OpenSkyService: ObservableObject {
     @Published var lastUpdated: Date?
     @Published var errorMessage: String?
 
+    // Route cache: icao24 → route (nil means "no route found")
+    @Published var routes: [String: FlightRoute] = [:]
+    private var routeLoading: Set<String> = []
+
     private var refreshTask: Task<Void, Never>?
     private let refreshInterval: TimeInterval = 15
 
@@ -69,6 +73,41 @@ final class OpenSkyService: ObservableObject {
             }
         }
     }
+
+    // MARK: - Route lookup
+
+    func fetchRoute(for aircraft: Aircraft) {
+        let id = aircraft.id
+        guard routes[id] == nil, !routeLoading.contains(id) else { return }
+        routeLoading.insert(id)
+
+        let end   = Int(Date().timeIntervalSince1970)
+        let begin = end - 86400   // look back 24 hours
+
+        guard let url = URL(string: "https://opensky-network.org/api/flights/aircraft?icao24=\(id)&begin=\(begin)&end=\(end)") else {
+            routeLoading.remove(id)
+            return
+        }
+
+        Task {
+            do {
+                let (data, response) = try await URLSession.shared.data(from: url)
+                var route: FlightRoute? = nil
+                if let http = response as? HTTPURLResponse, http.statusCode == 200 {
+                    route = FlightRoute.parse(from: data, icao24: id)
+                }
+                await MainActor.run {
+                    // Store even if nil so we don't retry endlessly for this session
+                    self.routes[id] = route ?? FlightRoute(icao24: id, departure: nil, arrival: nil, callsign: nil, isArrivalEstimated: false)
+                    self.routeLoading.remove(id)
+                }
+            } catch {
+                await MainActor.run { self.routeLoading.remove(id) }
+            }
+        }
+    }
+
+    func isLoadingRoute(_ icao24: String) -> Bool { routeLoading.contains(icao24) }
 
     private func parseStates(from data: Data) throws -> [Aircraft] {
         guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],

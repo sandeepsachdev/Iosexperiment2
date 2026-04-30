@@ -65,7 +65,11 @@ struct ContentView: View {
 
             // Bottom: aircraft detail or flight count pill
             if let ac = selectedAircraft {
-                AircraftDetailView(aircraft: ac) {
+                AircraftDetailView(
+                    aircraft: ac,
+                    route: service.routes[ac.id],
+                    isLoadingRoute: service.isLoadingRoute(ac.id)
+                ) {
                     withAnimation(.spring(response: 0.3)) {
                         selectedAircraft = nil
                     }
@@ -112,6 +116,9 @@ struct ContentView: View {
         }
         .onChange(of: service.errorMessage) { error in
             showError = error != nil
+        }
+        .onChange(of: selectedAircraft?.id) { _, id in
+            if let ac = selectedAircraft { service.fetchRoute(for: ac) }
         }
         .onAppear { service.startTracking() }
         .onDisappear { service.stopTracking() }
