@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B8EFE562FA3F52700E444CB /* OpenSkyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8EFE552FA3F52700E444CB /* OpenSkyConfig.swift */; };
+		0B8EFE582FA3F6BF00E444CB /* OPENSKY_ROUTE_ISSUE.md in Resources */ = {isa = PBXBuildFile; fileRef = 0B8EFE572FA3F6BF00E444CB /* OPENSKY_ROUTE_ISSUE.md */; };
+		0B8EFE5A2FA3F77F00E444CB /* SETUP_AVIATIONSTACK.md in Resources */ = {isa = PBXBuildFile; fileRef = 0B8EFE592FA3F77F00E444CB /* SETUP_AVIATIONSTACK.md */; };
+		0BDD58382FA3F3E900B36A01 /* AlternativeFlightDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDD58372FA3F3E900B36A01 /* AlternativeFlightDataService.swift */; };
 		AA010000000000000001 /* FlightTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA020000000000000001 /* FlightTrackerApp.swift */; };
 		AA010000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA020000000000000002 /* ContentView.swift */; };
 		AA010000000000000003 /* Aircraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA020000000000000003 /* Aircraft.swift */; };
@@ -21,6 +25,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B8EFE552FA3F52700E444CB /* OpenSkyConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSkyConfig.swift; sourceTree = "<group>"; };
+		0B8EFE572FA3F6BF00E444CB /* OPENSKY_ROUTE_ISSUE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = OPENSKY_ROUTE_ISSUE.md; sourceTree = "<group>"; };
+		0B8EFE592FA3F77F00E444CB /* SETUP_AVIATIONSTACK.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SETUP_AVIATIONSTACK.md; sourceTree = "<group>"; };
+		0BDD58372FA3F3E900B36A01 /* AlternativeFlightDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternativeFlightDataService.swift; sourceTree = "<group>"; };
 		AA020000000000000001 /* FlightTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightTrackerApp.swift; sourceTree = "<group>"; };
 		AA020000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA020000000000000003 /* Aircraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aircraft.swift; sourceTree = "<group>"; };
@@ -39,13 +47,14 @@
 		AA030000000000000001 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
-			files = ( );
+			files = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AA040000000000000001 /* root */ = {
+		AA040000000000000001 = {
 			isa = PBXGroup;
 			children = (
 				AA040000000000000002 /* FlightTracker */,
@@ -80,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				AA020000000000000004 /* OpenSkyService.swift */,
+				0BDD58372FA3F3E900B36A01 /* AlternativeFlightDataService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -91,6 +101,9 @@
 				AA020000000000000006 /* AircraftDetailView.swift */,
 				AA020000000000000007 /* FlightListView.swift */,
 				AA020000000000000008 /* StatsBarView.swift */,
+				0B8EFE552FA3F52700E444CB /* OpenSkyConfig.swift */,
+				0B8EFE572FA3F6BF00E444CB /* OPENSKY_ROUTE_ISSUE.md */,
+				0B8EFE592FA3F77F00E444CB /* SETUP_AVIATIONSTACK.md */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -114,8 +127,10 @@
 				AA030000000000000001 /* Frameworks */,
 				AA070000000000000001 /* Resources */,
 			);
-			buildRules = ( );
-			dependencies = ( );
+			buildRules = (
+			);
+			dependencies = (
+			);
 			name = FlightTracker;
 			productName = FlightTracker;
 			productReference = AA02000000000000000A /* FlightTracker.app */;
@@ -140,7 +155,10 @@
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
-			knownRegions = ( en, Base );
+			knownRegions = (
+				en,
+				Base,
+			);
 			mainGroup = AA040000000000000001;
 			productRefGroup = AA040000000000000006 /* Products */;
 			projectDirPath = "";
@@ -156,6 +174,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B8EFE582FA3F6BF00E444CB /* OPENSKY_ROUTE_ISSUE.md in Resources */,
+				0B8EFE5A2FA3F77F00E444CB /* SETUP_AVIATIONSTACK.md in Resources */,
 				AA010000000000000009 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -174,7 +194,9 @@
 				AA010000000000000005 /* RadarMapView.swift in Sources */,
 				AA010000000000000006 /* AircraftDetailView.swift in Sources */,
 				AA010000000000000007 /* FlightListView.swift in Sources */,
+				0BDD58382FA3F3E900B36A01 /* AlternativeFlightDataService.swift in Sources */,
 				AA010000000000000008 /* StatsBarView.swift in Sources */,
+				0B8EFE562FA3F52700E444CB /* OpenSkyConfig.swift in Sources */,
 				AA010000000000000010 /* FlightRoute.swift in Sources */,
 				AA010000000000000011 /* AirportDatabase.swift in Sources */,
 			);
@@ -223,7 +245,10 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = ( "DEBUG=1", "$(inherited)" );
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -290,6 +315,7 @@
 				CODE_SIGN_ENTITLEMENTS = FlightTracker/FlightTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W62Y2NZ48N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows your position on the flight radar map.";
@@ -298,7 +324,10 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = ( "$(inherited)", "@executable_path/Frameworks" );
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.flighttracker.sydney;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -316,6 +345,7 @@
 				CODE_SIGN_ENTITLEMENTS = FlightTracker/FlightTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W62Y2NZ48N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows your position on the flight radar map.";
@@ -324,7 +354,10 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = ( "$(inherited)", "@executable_path/Frameworks" );
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.flighttracker.sydney;
 				PRODUCT_NAME = "$(TARGET_NAME)";

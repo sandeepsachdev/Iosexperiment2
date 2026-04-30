@@ -188,7 +188,59 @@ private struct RouteView: View {
     private func routeContent(_ route: FlightRoute) -> some View {
         let dep = route.departureAirport
         let arr = route.arrivalAirport
-
+        
+        // Check if we have any route data
+        let hasRouteData = route.departure != nil || route.arrival != nil
+        
+        if !hasRouteData {
+            // Show airline info from callsign when route data is unavailable
+            VStack(spacing: 6) {
+                HStack(spacing: 8) {
+                    Image(systemName: "airplane.circle.fill")
+                        .font(.title3)
+                        .foregroundColor(.orange)
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        if let callsign = route.callsign, !callsign.isEmpty {
+                            Text(callsign)
+                                .font(.system(.headline, design: .monospaced, weight: .bold))
+                        }
+                        
+                        if let airline = route.airlineName {
+                            Text(airline)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    Image(systemName: "info.circle")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                
+                Divider()
+                    .padding(.horizontal, -12)
+                
+                VStack(spacing: 2) {
+                    Text("Route details unavailable")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Text("OpenSky API restricts flight route endpoint")
+                        .font(.system(size: 9))
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+            }
+            .padding(.vertical, 8)
+        } else {
+            routeDetails(dep: dep, arr: arr, route: route)
+        }
+    }
+    
+    @ViewBuilder
+    private func routeDetails(dep: Airport?, arr: Airport?, route: FlightRoute) -> some View {
         HStack(spacing: 0) {
             // Origin
             VStack(alignment: .leading, spacing: 2) {

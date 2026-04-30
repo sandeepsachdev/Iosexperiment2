@@ -117,7 +117,7 @@ struct ContentView: View {
         .onChange(of: service.errorMessage) { error in
             showError = error != nil
         }
-        .onChange(of: selectedAircraft?.id) { _, id in
+        .onChange(of: selectedAircraft?.id) { id in
             if let ac = selectedAircraft { service.fetchRoute(for: ac) }
         }
         .onAppear { service.startTracking() }
