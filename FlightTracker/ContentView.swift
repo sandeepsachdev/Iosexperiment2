@@ -110,7 +110,7 @@ struct ContentView: View {
         } message: {
             Text(service.errorMessage ?? "Unable to fetch flight data.")
         }
-        .onChange(of: service.errorMessage) { _, error in
+        .onChange(of: service.errorMessage) { error in
             showError = error != nil
         }
         .onAppear { service.startTracking() }
