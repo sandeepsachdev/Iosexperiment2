@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FlightListView: View {
     let aircraft: [Aircraft]
+    let routes: [String: FlightRoute]
     @Binding var selectedAircraft: Aircraft?
     @Binding var isPresented: Bool
 
@@ -18,7 +19,8 @@ struct FlightListView: View {
         let base = searchText.isEmpty ? aircraft : aircraft.filter {
             $0.displayCallsign.localizedCaseInsensitiveContains(searchText) ||
             $0.originCountry.localizedCaseInsensitiveContains(searchText) ||
-            $0.id.localizedCaseInsensitiveContains(searchText)
+            $0.id.localizedCaseInsensitiveContains(searchText) ||
+            (routes[$0.id]?.airlineName?.localizedCaseInsensitiveContains(searchText) ?? false)
         }
         switch sortMode {
         case .altitude: return base.sorted { ($0.baroAltitude ?? -1) > ($1.baroAltitude ?? -1) }
@@ -54,7 +56,7 @@ struct FlightListView: View {
                     Spacer()
                 } else {
                     List(filtered) { ac in
-                        FlightRow(aircraft: ac)
+                        FlightRow(aircraft: ac, route: routes[ac.id])
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 selectedAircraft = ac
@@ -65,7 +67,7 @@ struct FlightListView: View {
                     .listStyle(.plain)
                 }
             }
-            .searchable(text: $searchText, prompt: "Search callsign, country, ICAO…")
+            .searchable(text: $searchText, prompt: "Search callsign, airline, country, ICAO…")
             .navigationTitle("\(aircraft.count) Aircraft Nearby")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -79,6 +81,7 @@ struct FlightListView: View {
 
 private struct FlightRow: View {
     let aircraft: Aircraft
+    let route: FlightRoute?
 
     var altColor: Color {
         switch aircraft.altitudeCategory {
@@ -109,9 +112,30 @@ private struct FlightRow: View {
                         .font(.system(.subheadline, design: .monospaced, weight: .bold))
                     Text(aircraft.countryFlag)
                 }
-                Text(aircraft.originCountry)
-                    .font(.caption)
+                
+                // Show airline if available, otherwise show country
+                if let airline = route?.airlineName {
+                    Text(airline)
+                        .font(.caption)
+                        .foregroundColor(.orange)
+                } else {
+                    Text(aircraft.originCountry)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                
+                // Show route if available
+                if let dep = route?.departure, let arr = route?.arrival {
+                    HStack(spacing: 4) {
+                        Text(dep)
+                            .font(.system(size: 10, design: .monospaced))
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 8))
+                        Text(arr)
+                            .font(.system(size: 10, design: .monospaced))
+                    }
                     .foregroundColor(.secondary)
+                }
             }
 
             Spacer()

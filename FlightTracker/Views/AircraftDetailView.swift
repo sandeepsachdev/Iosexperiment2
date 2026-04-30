@@ -241,65 +241,94 @@ private struct RouteView: View {
     
     @ViewBuilder
     private func routeDetails(dep: Airport?, arr: Airport?, route: FlightRoute) -> some View {
-        HStack(spacing: 0) {
-            // Origin
-            VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 4) {
-                    Image(systemName: "airplane.departure")
+        VStack(spacing: 8) {
+            // Airline info at the top if available
+            if let airline = route.airlineName {
+                HStack(spacing: 8) {
+                    Image(systemName: "airplane.circle.fill")
+                        .font(.body)
+                        .foregroundColor(.orange)
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(airline)
+                            .font(.system(.body, weight: .semibold))
+                            .foregroundColor(.primary)
+                        
+                        if let callsign = route.callsign, !callsign.isEmpty {
+                            Text("Flight \(callsign)")
+                                .font(.system(.caption, design: .monospaced))
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.bottom, 4)
+                
+                Divider()
+                    .padding(.horizontal, -12)
+            }
+            
+            HStack(spacing: 0) {
+                // Origin
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "airplane.departure")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Text(dep.map { "\($0.flag) \($0.iata)" } ?? route.departure ?? "—")
+                            .font(.system(.headline, design: .monospaced, weight: .bold))
+                    }
+                    Text(dep?.city ?? dep?.name ?? "Unknown")
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    Text(dep.map { "\($0.flag) \($0.iata)" } ?? route.departure ?? "—")
-                        .font(.system(.headline, design: .monospaced, weight: .bold))
+                        .lineLimit(1)
+                    Text(dep?.name ?? "")
+                        .font(.system(size: 9))
+                        .foregroundColor(Color(.tertiaryLabel))
+                        .lineLimit(1)
                 }
-                Text(dep?.city ?? dep?.name ?? "Unknown")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .lineLimit(1)
-                Text(dep?.name ?? "")
-                    .font(.system(size: 9))
-                    .foregroundColor(Color(.tertiaryLabel))
-                    .lineLimit(1)
-            }
 
-            Spacer()
+                Spacer()
 
-            // Flight path line
-            VStack(spacing: 2) {
-                Image(systemName: "airplane")
-                    .font(.caption)
-                    .foregroundColor(.orange)
-                    .scaleEffect(x: 1, y: 1)
-                Rectangle()
-                    .fill(Color(.separator))
-                    .frame(height: 1)
-                    .padding(.horizontal, 4)
-                if route.isArrivalEstimated && route.arrival != nil {
-                    Text("est.")
-                        .font(.system(size: 8))
-                        .foregroundColor(.secondary)
+                // Flight path line
+                VStack(spacing: 2) {
+                    Image(systemName: "airplane")
+                        .font(.caption)
+                        .foregroundColor(.orange)
+                        .scaleEffect(x: 1, y: 1)
+                    Rectangle()
+                        .fill(Color(.separator))
+                        .frame(height: 1)
+                        .padding(.horizontal, 4)
+                    if route.isArrivalEstimated && route.arrival != nil {
+                        Text("est.")
+                            .font(.system(size: 8))
+                            .foregroundColor(.secondary)
+                    }
                 }
-            }
-            .frame(maxWidth: 80)
+                .frame(maxWidth: 80)
 
-            Spacer()
+                Spacer()
 
-            // Destination
-            VStack(alignment: .trailing, spacing: 2) {
-                HStack(spacing: 4) {
-                    Text(arr.map { "\($0.iata) \($0.flag)" } ?? route.arrival ?? "—")
-                        .font(.system(.headline, design: .monospaced, weight: .bold))
-                    Image(systemName: "airplane.arrival")
+                // Destination
+                VStack(alignment: .trailing, spacing: 2) {
+                    HStack(spacing: 4) {
+                        Text(arr.map { "\($0.iata) \($0.flag)" } ?? route.arrival ?? "—")
+                            .font(.system(.headline, design: .monospaced, weight: .bold))
+                        Image(systemName: "airplane.arrival")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    Text(arr?.city ?? arr?.name ?? (route.arrival == nil ? "En Route" : "Unknown"))
                         .font(.caption)
                         .foregroundColor(.secondary)
+                        .lineLimit(1)
+                    Text(arr?.name ?? "")
+                        .font(.system(size: 9))
+                        .foregroundColor(Color(.tertiaryLabel))
+                        .lineLimit(1)
                 }
-                Text(arr?.city ?? arr?.name ?? (route.arrival == nil ? "En Route" : "Unknown"))
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .lineLimit(1)
-                Text(arr?.name ?? "")
-                    .font(.system(size: 9))
-                    .foregroundColor(Color(.tertiaryLabel))
-                    .lineLimit(1)
             }
         }
     }

@@ -104,6 +104,7 @@ struct ContentView: View {
         .sheet(isPresented: $showFlightList) {
             FlightListView(
                 aircraft: service.aircraft,
+                routes: service.routes,
                 selectedAircraft: $selectedAircraft,
                 isPresented: $showFlightList
             )
